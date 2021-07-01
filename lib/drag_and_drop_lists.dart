@@ -215,7 +215,7 @@ class DragAndDropLists extends StatefulWidget {
   final Widget? listDivider;
 
   /// Whether it should put a divider on the last list or not.
-  final bool listDividerOnLastChild;
+  final bool listDividerOnLastTwoChild;
 
   /// The padding between each individual list.
   final EdgeInsets? listPadding;
@@ -313,7 +313,7 @@ class DragAndDropLists extends StatefulWidget {
     this.listDecorationWhileDragging,
     this.listInnerDecoration,
     this.listDivider,
-    this.listDividerOnLastChild = true,
+    this.listDividerOnLastTwoChild = true,
     this.listPadding,
     this.contentsWhenEmpty,
     this.listWidth = double.infinity,
@@ -507,7 +507,7 @@ class DragAndDropListsState extends State<DragAndDropLists> {
   int _calculateChildrenCount(bool includeSeparators) {
     if (includeSeparators)
       return (widget.children.length * 2) -
-          (widget.listDividerOnLastChild ? 0 : 1) +
+          (widget.listDividerOnLastTwoChild ? 0 : 1) +
           1;
     else
       return widget.children.length + 1;
@@ -521,7 +521,7 @@ class DragAndDropListsState extends State<DragAndDropLists> {
       DragAndDropBuilderParameters parameters) {
     if (index == childrenCount - 1) {
       return dragAndDropListTarget;
-    } else if (includeSeparators && index.isOdd) {
+    } else if (includeSeparators && index.isOdd && childrenCount-2 != index) {
       return widget.listDivider!;
     } else {
       return DragAndDropListWrapper(
